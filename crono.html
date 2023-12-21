@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <title>Chronomètre</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        .container{
+            width: 500px;
+            margin: auto;
+            padding: 30px;
+            align-content: center
+        }
+        .chronometre{
+            width: 400px; 
+            height: 60px;
+            margin: auto;
+            border: 1px solid black;
+            justify-content: center;
+            text-align: center;
+            justify-items: center;
+            margin: 50px;
+            align-content: center;
+            padding-top: 30px;
+            font-size: 30px
+        }
+        .btns{
+            width: 500px;
+            margin:auto;
+            text-align: center;
+        }
+        button{
+            width: 100px;
+            height: 40px;
+        }
+        span{
+            margin-left: 20px
+        }
+        .stop{
+            color :white;
+            background: red;
+            border-radius: 10px;
+            font-family: fantasy;
+            font-size: 18px
+        }
+        .start{
+            color: white;
+            background: green;
+            border-radius: 10px;
+            font-family: fantasy;
+            font-size: 18px
+        }
+        .reset{
+            color: white;
+            background: blue;
+            border-radius: 10px;
+            font-family: fantasy;
+            font-size: 18px
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="chronometre">
+        <span>0 h</span>
+        <span>0 min</span>
+        <span>0 s</span>
+        <span>0 ms</span>
+    </div>
+    <div class="btns">
+        <button class="start">Start</button>
+        <button class="stop">Stop</button>
+        <button class="reset">Reset</button>
+    </div>
+</div>
+    
+<script src="./jquery-3.6.3.js"></script>
+<script>
+    $(document).ready(function () {
+        var span = $('span');
+        var btn_start = $('.start');
+        var btn_stop = $('.stop');
+        var t;
+        var ms = 0, s = 0, mn = 0, h = 0;
+
+        function update_Chrono() {
+            ms += 1;
+
+            if (ms == 10) {
+                ms = 1;
+                s += 1;
+            }
+            if (s == 60) {
+                s = 0;
+                mn += 1;
+            }
+            if (mn == 60) {
+                mn = 0;
+                h += 1;
+            }
+
+            span.eq(0).html(h + "h");
+            span.eq(1).html(mn + "min");
+            span.eq(2).html(s + "s");
+            span.eq(3).html(ms + "ms");
+        }
+
+        btn_start.click(function () {
+            t = setInterval(update_Chrono, 100);
+            btn_start.prop('disabled', true);
+        });
+
+        btn_stop.click(function () {
+            clearInterval(t);
+            btn_start.prop('disabled', false);
+        });
+
+        $('.reset').click(function () {
+            clearInterval(t);
+            btn_start.prop('disabled', false);
+            span.eq(0).html(0 + "h");
+            span.eq(1).html(0 + "min");
+            span.eq(2).html(0 + "s");
+            span.eq(3).html(0 + "ms");
+        });
+    });
+</script>
+</body>
+</html>
